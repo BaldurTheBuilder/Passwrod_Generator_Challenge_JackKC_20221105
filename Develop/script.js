@@ -11,20 +11,40 @@ var ourPasswordCriteria = {
 
 //WHEN I click the button to generate a password I am presented with a series of prompts for password criteria
 
-//WHEN prompted for password criteria I select which criteria to include in the password
 
 //WHEN prompted for the length of the password I choose a length of at least 8 characters and no more than 128 characters
-//ourPasswordCriteria.length = getPasswordLength();
+ourPasswordCriteria.length = getPasswordLength();
 
+//WHEN prompted for password criteria I select which criteria to include in the password
 //WHEN asked for character types to include in the password I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-//ourPasswordCriteria.lowercase = selectLowercase();
-//ourPasswordCriteria.uppercase = selectUppercase();
-ourPasswordCriteria.specialCharacters = selectSpecialCharacters();
-//WHEN I answer each prompt my input should be validated and at least one character type should be selected
+/*please note: it appears we were supposed to use "confirm" for this. I wrote algorithms for each and have them saved with my functions:
+  ourPasswordCriteria.lowercase = selectLowercase();
+  ourPasswordCriteria.uppercase = selectUppercase();
+  ourPasswordCriteria.specialCharacters = selectSpecialCharacters();
+  ourPasswordCriteria.numeric = selectNumbers();*/
+ourPasswordCriteria.lowercase = confirm("Would you like to use lowercase letters? Press 'OK' for yes, and 'Cancel' for no.");
+//WHEN I answer each prompt my input is validated
+validateAnswer(ourPasswordCriteria.lowercase, "lowercase letters");
+
+ourPasswordCriteria.uppercase = confirm("Would you like to use uppercase letters? Press 'OK' for yes, and 'Cancel' for no.");
+validateAnswer(ourPasswordCriteria.uppercase, "uppercase letters");
+
+ourPasswordCriteria.specialCharacters = confirm("Would you like to use special characters such as !,@,#,$, or %? Press 'OK' for yes, and 'Cancel' for no.");
+validateAnswer(ourPasswordCriteria.specialCharacters, "special characters");
+
+  //WHEN I answer each prompt at least one character type should be selected.
+if(ourPasswordCriteria.lowercase == false && ourPasswordCriteria.uppercase == false && ourPasswordCriteria.specialCharacters == false){
+  alert("You haven't selected either uppercase or lowercase letters, or special characters for your password; only numbers will be used.");
+}
+else {
+  ourPasswordCriteria.numeric = confirm("Would you like to use numbers? Press 'OK' for yes, and 'Cancel' for no.");
+  validateAnswer(ourPasswordCriteria.numeric, "numbers");
+}
 
 //WHEN all prompts are answered a password is generated that matches the selected criteria
 
 //WHEN the password is generated the password is either displayed in an alert or written to the page
+
 
 
 // Get references to the #generate element
@@ -136,3 +156,39 @@ function selectSpecialCharacters(){
 
 //function that selects whether numbers will be used.
 //If lowercase, uppercase, and special characters are all false, then we will alert the user that only numbers will be used.
+function selectNumbers(){
+  var numbersDecided = false;
+  while(numbersDecided == false){
+    if(ourPasswordCriteria.lowercase == false && ourPasswordCriteria.uppercase == false && ourPasswordCriteria.specialCharacters == false){
+      alert("You haven't selected letters or special characters for your password; only numbers will be used.");
+      numbersDecided = true;
+      return true;
+    }
+    else{
+      var yesOrNo = prompt("Please select whether you want to use numbers by typing yes or no:");
+      if(yesOrNo == "yes" || yesOrNo == "Yes" || yesOrNo == "Y" || yesOrNo == "y" || yesOrNo == 1 || yesOrNo == "lowercase" || yesOrNo == "Lowercase" || yesOrNo == "true"|| yesOrNo == "True"){
+        alert("You have selected yes. Numbers will be used.");
+        numbersDecided = true;
+        return true;
+      }
+      else if(yesOrNo == "no" || yesOrNo == "No" || yesOrNo == "N" || yesOrNo == "n" || yesOrNo == "2" || yesOrNo == "uppercase" || yesOrNo == "Uppercase" || yesOrNo == "false" || yesOrNo == "False"){
+        alert("You have selected no. Numbers will not be used.");
+        numbersDecided = true;
+        return false;
+      }
+      else{
+        alert("You have not entered an acceptable response.")
+      }
+    }
+  }
+}
+
+//function that validates the answers input by the user.
+function validateAnswer(answer, typeOfCharacter){
+  if(answer){
+    alert("You have selected 'yes', you do want "+typeOfCharacter+" in your password. They will be used.");
+  }
+  else{
+    alert("You have selected 'no', you don't want "+typeOfCharacter+" in your password. They won't be used.");
+  }
+}
