@@ -8,7 +8,7 @@ var ourPasswordCriteria = {
   specialCharacters: false,
 }
 
-var myPassword = [];
+var myPassword = "";
 
 //WHEN the password is generated the password is either displayed in an alert or written to the page
 
@@ -182,6 +182,7 @@ function getPasswordCriteria(){
     //WHEN I answer each prompt at least one character type should be selected.
   if(ourPasswordCriteria.lowercase == false && ourPasswordCriteria.uppercase == false && ourPasswordCriteria.specialCharacters == false){
     alert("You haven't selected either uppercase or lowercase letters, or special characters for your password; only numbers will be used.");
+    ourPasswordCriteria.numeric = true;
   }
   else {
     ourPasswordCriteria.numeric = confirm("Would you like to use numbers? Press 'OK' for yes, and 'Cancel' for no.");
@@ -194,35 +195,40 @@ function getPasswordCriteria(){
 function generatePassword(){
   var temporaryPassword = "";
   var totalNumberPossibleCharacters = 0;
-  //it looks like the easiest way to do this is by using hex inputs.
-    //in hex, lowercase letters are 61-7A. There are 26 lowercase letters.
-    //in hex, uppercase letters are 41-5A. There are 26 uppercase letters.
-    //in hex, numbers are 30-39. There are 10 numbers.
-    //in hex, special characters I will accept include 21-2F and 3A-40. This would exclude most problematic characters while still having a good mix. There are 22 characters.
-    //this adds to a total of 84 possible characters.
-    
-  //figure out the total number of characters we need. We need an equal chance for every character to occur.
+  var ourAcceptedCharacters = "";
+
+  //building the string of our possible characters.
   if(ourPasswordCriteria.lowercase){
+   //There are 26 lowercase letters.
     totalNumberPossibleCharacters += 26;
+    ourAcceptedCharacters += "abcdefghijklmnopqrstuvwxyz";
     console.log("adding 26 characters for lowercase; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
   }
   if(ourPasswordCriteria.uppercase){
+    //There are 26 uppercase letters. 
     totalNumberPossibleCharacters += 26;
+    ourAcceptedCharacters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     console.log("adding 26 characters for uppercase; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
   }
-  if(ourPasswordCriteria.specialCharacters){
-    totalNumberPossibleCharacters += 22;
-    console.log("adding 22 characters for special characters; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
-  }
   if(ourPasswordCriteria.numeric){
+    //There are 10 numbers.
     totalNumberPossibleCharacters += 10;
+    ourAcceptedCharacters += "0123456789";
     console.log("adding 10 characters for numbers; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
+  }
+  if(ourPasswordCriteria.specialCharacters){
+    //I will be using 22 special characters.
+    totalNumberPossibleCharacters += 22;
+    ourAcceptedCharacters += "!@#$%^&*()_+-=,./<>?;:"
+    console.log("adding 22 characters for special characters; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
   }
 
   //for loop to cycle through the full length of the password
-  for(var currentPasswordCharacter; currentPasswordCharacter < ourPasswordCriteria.length; currentPasswordCharacter++){
-  //generate and select a random number based on the total number of possible characters
-  Math.floor(Math.random() * 10);
-  //figure out what character is being selected based on our available characters and the random number
+  for(var currentPasswordPosition = 0; currentPasswordPosition < ourPasswordCriteria.length; currentPasswordPosition++){
+    //generate  a random number based on the total number of possible characters
+    var randomNumber = Math.floor(Math.random() * totalNumberPossibleCharacters);
+
+    //figure out what character is being selected based on our available characters and the random number
+    myPassword += ourAcceptedCharacters.charAt(randomNumber);
   }
 }
