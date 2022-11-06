@@ -1,57 +1,25 @@
 // Assignment code here
 var ourPasswordCriteria = {
   //our password has several criteria: length, upper/lowercase, numeric, and special characters.
-  actualPassword: "",
   length: 0,
   lowercase: false,
   uppercase: false,
   numeric: false,
-  specialCharacters: false
+  specialCharacters: false,
 }
 
-//WHEN I click the button to generate a password I am presented with a series of prompts for password criteria
-
-
-//WHEN prompted for the length of the password I choose a length of at least 8 characters and no more than 128 characters
-ourPasswordCriteria.length = getPasswordLength();
-
-//WHEN prompted for password criteria I select which criteria to include in the password
-//WHEN asked for character types to include in the password I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-/*please note: it appears we were supposed to use "confirm" for this. I wrote algorithms for each and have them saved with my functions:
-  ourPasswordCriteria.lowercase = selectLowercase();
-  ourPasswordCriteria.uppercase = selectUppercase();
-  ourPasswordCriteria.specialCharacters = selectSpecialCharacters();
-  ourPasswordCriteria.numeric = selectNumbers();*/
-ourPasswordCriteria.lowercase = confirm("Would you like to use lowercase letters? Press 'OK' for yes, and 'Cancel' for no.");
-//WHEN I answer each prompt my input is validated
-validateAnswer(ourPasswordCriteria.lowercase, "lowercase letters");
-
-ourPasswordCriteria.uppercase = confirm("Would you like to use uppercase letters? Press 'OK' for yes, and 'Cancel' for no.");
-validateAnswer(ourPasswordCriteria.uppercase, "uppercase letters");
-
-ourPasswordCriteria.specialCharacters = confirm("Would you like to use special characters such as !,@,#,$, or %? Press 'OK' for yes, and 'Cancel' for no.");
-validateAnswer(ourPasswordCriteria.specialCharacters, "special characters");
-
-  //WHEN I answer each prompt at least one character type should be selected.
-if(ourPasswordCriteria.lowercase == false && ourPasswordCriteria.uppercase == false && ourPasswordCriteria.specialCharacters == false){
-  alert("You haven't selected either uppercase or lowercase letters, or special characters for your password; only numbers will be used.");
-}
-else {
-  ourPasswordCriteria.numeric = confirm("Would you like to use numbers? Press 'OK' for yes, and 'Cancel' for no.");
-  validateAnswer(ourPasswordCriteria.numeric, "numbers");
-}
-
-//WHEN all prompts are answered a password is generated that matches the selected criteria
+var myPassword = [];
 
 //WHEN the password is generated the password is either displayed in an alert or written to the page
-
-
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
+  //WHEN I click the button to generate a password I am presented with a series of prompts for password criteria
+  getPasswordCriteria();
+
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
@@ -62,13 +30,12 @@ function writePassword() {
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
+
 //function that accepts a password length from the user. The length is: 8 <= length <= 128, and should only accept integers.
 function getPasswordLength() {
   var passwordIsAcceptableLength = false;
-
   while(passwordIsAcceptableLength == false){
     var tempPasswordLength = prompt("please select a positive integer how long you want your password to be (min 8, max 128 characters): ");
-
     //first test examining whether the number is in our range of 8-128.
     if( tempPasswordLength >= 8 && tempPasswordLength <= 128){
       //second test examining whether the number is an integer.
@@ -86,7 +53,7 @@ function getPasswordLength() {
   return(tempPasswordLength);
 }
 
-//function that selects whether the user wants to use lowercase letters.
+//***UNUSED*** function that selects whether the user wants to use lowercase letters.
 function selectLowercase(){
   var lowercaseDecided = false;
   while(lowercaseDecided == false){
@@ -106,8 +73,7 @@ function selectLowercase(){
       }
   }
 }
-
-//function that selects whether the user wants to use uppercase letters. 
+//***UNUSED*** function that selects whether the user wants to use uppercase letters. 
 //If both this function and selectLowercase() both return as false, then we will alert the user that no letters will be used.
 function selectUppercase(){
   var uppercaseDecided = false;
@@ -132,8 +98,7 @@ function selectUppercase(){
 
   }
 }
-
-//function that selects whether the user wants to use special characters.
+//***UNUSED*** function that selects whether the user wants to use special characters.
 function selectSpecialCharacters(){
   var specialCharactersDecided = false;
   while(specialCharactersDecided == false){
@@ -153,8 +118,7 @@ function selectSpecialCharacters(){
       }
   }
 }
-
-//function that selects whether numbers will be used.
+//***UNUSED*** function that selects whether numbers will be used.
 //If lowercase, uppercase, and special characters are all false, then we will alert the user that only numbers will be used.
 function selectNumbers(){
   var numbersDecided = false;
@@ -190,5 +154,75 @@ function validateAnswer(answer, typeOfCharacter){
   }
   else{
     alert("You have selected 'no', you don't want "+typeOfCharacter+" in your password. They won't be used.");
+  }
+}
+
+//function that will accept the user's input on what criteria is used for the password.
+function getPasswordCriteria(){
+  //WHEN prompted for the length of the password I choose a length of at least 8 characters and no more than 128 characters
+  ourPasswordCriteria.length = getPasswordLength();
+
+  //WHEN prompted for password criteria I select which criteria to include in the password
+  //WHEN asked for character types to include in the password I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
+  /*please note: it appears we were supposed to use "confirm" for this. I wrote algorithms for each and have them saved with my functions:
+    ourPasswordCriteria.lowercase = selectLowercase();
+    ourPasswordCriteria.uppercase = selectUppercase();
+    ourPasswordCriteria.specialCharacters = selectSpecialCharacters();
+    ourPasswordCriteria.numeric = selectNumbers();*/
+  ourPasswordCriteria.lowercase = confirm("Would you like to use lowercase letters? Press 'OK' for yes, and 'Cancel' for no.");
+  //WHEN I answer each prompt my input is validated
+  validateAnswer(ourPasswordCriteria.lowercase, "lowercase letters");
+
+  ourPasswordCriteria.uppercase = confirm("Would you like to use uppercase letters? Press 'OK' for yes, and 'Cancel' for no.");
+  validateAnswer(ourPasswordCriteria.uppercase, "uppercase letters");
+
+  ourPasswordCriteria.specialCharacters = confirm("Would you like to use special characters such as !,@,#,$, or %? Press 'OK' for yes, and 'Cancel' for no.");
+  validateAnswer(ourPasswordCriteria.specialCharacters, "special characters");
+
+    //WHEN I answer each prompt at least one character type should be selected.
+  if(ourPasswordCriteria.lowercase == false && ourPasswordCriteria.uppercase == false && ourPasswordCriteria.specialCharacters == false){
+    alert("You haven't selected either uppercase or lowercase letters, or special characters for your password; only numbers will be used.");
+  }
+  else {
+    ourPasswordCriteria.numeric = confirm("Would you like to use numbers? Press 'OK' for yes, and 'Cancel' for no.");
+    validateAnswer(ourPasswordCriteria.numeric, "numbers");
+  }
+}
+
+//WHEN all prompts are answered a password is generated that matches the selected criteria
+//function that takes our inputted criteria for the password and creates a password based on it.
+function generatePassword(){
+  var temporaryPassword = "";
+  var totalNumberPossibleCharacters = 0;
+  //it looks like the easiest way to do this is by using hex inputs.
+    //in hex, lowercase letters are 61-7A. There are 26 lowercase letters.
+    //in hex, uppercase letters are 41-5A. There are 26 uppercase letters.
+    //in hex, numbers are 30-39. There are 10 numbers.
+    //in hex, special characters I will accept include 21-2F and 3A-40. This would exclude most problematic characters while still having a good mix. There are 22 characters.
+    //this adds to a total of 84 possible characters.
+    
+  //figure out the total number of characters we need. We need an equal chance for every character to occur.
+  if(ourPasswordCriteria.lowercase){
+    totalNumberPossibleCharacters += 26;
+    console.log("adding 26 characters for lowercase; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
+  }
+  if(ourPasswordCriteria.uppercase){
+    totalNumberPossibleCharacters += 26;
+    console.log("adding 26 characters for uppercase; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
+  }
+  if(ourPasswordCriteria.specialCharacters){
+    totalNumberPossibleCharacters += 22;
+    console.log("adding 22 characters for special characters; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
+  }
+  if(ourPasswordCriteria.numeric){
+    totalNumberPossibleCharacters += 10;
+    console.log("adding 10 characters for numbers; totalNumberPossibleCharacters = "+totalNumberPossibleCharacters);
+  }
+
+  //for loop to cycle through the full length of the password
+  for(var currentPasswordCharacter; currentPasswordCharacter < ourPasswordCriteria.length; currentPasswordCharacter++){
+  //generate and select a random number based on the total number of possible characters
+  Math.floor(Math.random() * 10);
+  //figure out what character is being selected based on our available characters and the random number
   }
 }
